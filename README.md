@@ -53,15 +53,15 @@ Par ailleurs, pour faciliter la maintenance du projet à long terme, le code du 
 
 ### Deploiement
 
-L'url de l'application déployée devra être ajouté dans la documentation.
+Les urls de l'application (backend et frontend) sont ci-dessous:
 
 #### Frontend
 
-Déployer le frontend sur [Vercel](https://vercel.com/dashboard).
+URL de production : [Voir le frontend](https://newsfoundry.vercel.app/)
 
 #### Backend
 
-Déployer le backend sur [Railway](https://railway.com/dashboard).
+URL de production : [Voir le backend](https://newsfoundry-production-f730.up.railway.app/)
 
 > Un Dockerfile est déjà présent pour faciliter le déploiement. Il faudra simplement référencer `backend/` comme "Root Directory" après avoir connecté le repository.
 > La base de donnée postgres peut être créée via Railway dans le même projet que le backend.
