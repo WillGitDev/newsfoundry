@@ -24,7 +24,8 @@ jobs:
           - 5432:5432
     env:
       DATABASE_URL: postgresql://user:password@localhost:5432/newsfoundry
-      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY}}
+      JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
+      ANTHROPIC_API_KEY: ${{secrets.ANTHROPIC_API_KEY}}
     steps:
       - uses: actions/checkout@v7
       - name: Install uv
