@@ -11,4 +11,10 @@ dependencies = [
     "psycopg2-binary>=2.9.9",
     "bcrypt>=4.3.0",
     "pyjwt>=2.13.0",
+    "pydantic-ai>=2.27.1",
+    "httpx>=0.28.1",
+    "pytest>=9.1.1",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
