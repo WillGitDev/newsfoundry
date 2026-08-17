@@ -3,10 +3,12 @@ from main import app
 from database import engine
 from models import User
 from sqlmodel import Session, select
+from database import init_db, engine
 import bcrypt
 import os
 import jwt
 
+init_db()
 client = TestClient(app)
 
 def test_hello():
