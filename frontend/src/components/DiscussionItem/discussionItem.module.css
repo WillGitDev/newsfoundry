@@ -1,0 +1,23 @@
+.container {
+  gap: 4px;
+  height: 80px;
+  width: 100%;
+  border: 1px solid var(--color-slate-300);
+  text-align: start;
+  background-color: var(--color-slate-100);
+  text-decoration: none;
+}
+
+.content {
+  font-weight: 400;
+  font-size: var(--font-size-heading-xs);
+  color: var(--color-slate-dark);
+  margin: 0;
+}
+
+.date {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--color-slate-800);
+  margin: 0;
+}

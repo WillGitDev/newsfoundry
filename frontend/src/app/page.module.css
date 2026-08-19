@@ -1,4 +1,4 @@
-.page{
+.page {
   height: 100vh;
   width: 100vw;
   background-image: url("/background.jpg");
@@ -6,7 +6,7 @@
   background-position: center;
   background-repeat: no-repeat;
 }
-.container{
+.container {
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -24,38 +24,26 @@
   padding: 30px;
 }
 
-.containerTitle{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-.title{
-  color: var(--color-brand-velvet);
-  font-weight: 400;
-  font-size: 25px;
-}
-
-.h2{
+.h2 {
   font-weight: 400;
   font-size: var(--font-size-heading-2xs);
   color: var(--color-slate-800);
 }
 
-.form{
+.form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
 }
 
-.label{
+.label {
   font-size: var(--font-size-heading-xs);
   font-weight: 400;
   color: var(--color-slate-dark);
 }
 
-.input{
+.input {
   background-color: var(--color-slate-300);
   border: 1px solid var(--color-slate-400);
   border-radius: 8px;
@@ -63,7 +51,7 @@
   padding-left: 10px;
 }
 
-.submit{
+.submit {
   background-color: var(--color-slate-dark);
   color: var(--color-slate-white);
   height: 36px;

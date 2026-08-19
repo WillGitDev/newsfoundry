@@ -1,0 +1,5 @@
+.container {
+  display: grid;
+  grid-template-rows: 90px 1fr 90px;
+  background-color: var(--color-slate-100);
+}

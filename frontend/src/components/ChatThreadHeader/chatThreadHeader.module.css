@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--color-slate-400);
+  padding: 10px;
+}
+
+.backContainer {
+  display: flex;
+}
+
+.backButton {
+  background-color: var(--color-slate-100);
+  border: none;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--color-brand-velvet);
+  color: var(--color-slate-100);
+  font-weight: 400;
+  font-size: var(--font-size-heading-xs);
+  border: none;
+  border-radius: 8px;
+  height: 60px;
+  width: 290px;
+  padding: 20px 25px;
+}

@@ -15,7 +15,7 @@ import json
 app = FastAPI()
 security = HTTPBearer()
 agent = Agent(
-    "anthropic:claude-sonnet-4-6",
+    "anthropic:claude-haiku-4-5-20251001",
     instructions="Tu es un assistant de journaliste ou de pigistes pour un public français. Tu dois aider les pigistes à gagner du temps et aussi à améliorer la qualité de leurs articles. Sois factuel et professionnel, il faut un contenu journalistique. Demande à l'utilisateur quel style et quelle forme adopter pour ses articles. Pour les revues de presse il faut s'appuyer sur des faits, c'est un point important si tu ne peux pas répondre à la question il faut le dire que tu ne sais pas"
 )
 
@@ -34,6 +34,15 @@ def get_current_user_id(credentials: HTTPAuthorizationCredentials = Depends(secu
         raise HTTPException(status_code=401, detail="Token invalide")
     return payload["user_id"]
 
+def simplify_messages(chat_messages):
+    simplified = []
+    for message in chat_messages:
+        for part in message["parts"]:
+            if part["part_kind"] == "user-prompt":
+                simplified.append({"role": "user", "content": part["content"], "timestamp": part["timestamp"]})
+            elif part["part_kind"] == "text":
+                simplified.append({"role": "assistant", "content": part["content"], "timestamp": message["timestamp"]})
+    return simplified
 @app.get("/")
 async def hello():
     return {"message": "👋"}
@@ -66,7 +75,14 @@ async def get_chat(chat_id: int, user_id: int = Depends(get_current_user_id)):
         chat = session.get(Chat, chat_id)
         if not chat or chat.user_id != user_id:
             raise HTTPException(status_code=404, detail="Chat introuvable")
-        return {"id": chat.id, "messages": chat.messages}
+        return {"id": chat.id, "messages": simplify_messages(chat.messages)}
+
+@app.get("/chats")
+async def list_chats(user_id: int = Depends(get_current_user_id)):
+    with Session(engine) as session:
+        statement = select(Chat).where(Chat.user_id == user_id)
+        chats = session.exec(statement).all()
+        return [{"id": chat.id, "created_at": chat.created_at} for chat in chats]
 
 @app.post("/chats/{chat_id}/messages")
 async def add_message(chat_id: int, message: MessageRequest, user_id: int = Depends(get_current_user_id)):
@@ -83,6 +99,7 @@ async def add_message(chat_id: int, message: MessageRequest, user_id: int = Depe
         session.commit()
 
         return {"response": result.output}
+
 
 if __name__ == "__main__":
     init_db()

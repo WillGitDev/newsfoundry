@@ -1,0 +1,53 @@
+.container {
+  display: grid;
+  grid-template-rows: 1fr 90px;
+  background-color: var(--color-slate-100);
+  min-height: 0;
+}
+
+.chat {
+  display: flex;
+  flex-direction: column-reverse;
+  background-color: grey;
+  overflow-y: auto;
+  padding: 150px 100px;
+  gap: 40px;
+  /* min-height: 0; */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chat::-webkit-scrollbar {
+  display: none;
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--color-slate-200);
+}
+
+.textarea {
+  height: 60px;
+  width: 80%;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  resize: none;
+}
+
+.submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 50px;
+  color: white;
+  background-color: var(--color-slate-500);
+  border-radius: 8px;
+  border: none;
+  align-self: flex-start;
+  margin-top: 16px;
+}

@@ -1,0 +1,61 @@
+.containerIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.userIcon {
+  background-color: var(--color-slate-dark);
+}
+
+.ia {
+  background-color: var(--color-slate-300);
+}
+
+.container {
+  display: flex;
+
+  max-width: 660px;
+
+  border-radius: 10px;
+  padding: 16px;
+  font-weight: 400;
+  font-size: var(--font-size-heading-xs);
+}
+
+.containerContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.userBubble {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
+  align-self: flex-end;
+}
+
+.userBubble .container {
+  background-color: var(--color-slate-dark);
+  color: white;
+}
+
+.assistantBubble {
+  display: flex;
+  gap: 10px;
+  align-self: flex-start;
+}
+
+.assistantBubble .container {
+  background-color: var(--color-slate-300);
+  color: var(--color-slate-dark);
+}
+
+.time {
+  font-size: 12px;
+}

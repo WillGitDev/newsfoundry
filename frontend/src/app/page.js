@@ -1,12 +1,14 @@
 "use client";
 import { useState } from "react";
 import styles from "./page.module.css";
-import Image from "next/image";
 import toast from "react-hot-toast";
+import Logo from "@components/Logo";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
   const handleLogin = async (e) => {
     e.preventDefault();
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
@@ -21,20 +23,13 @@ export default function Home() {
     }
     const data = await response.json();
     localStorage.setItem("token", data.token);
+    router.push("/HomeChat");
   };
 
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <div className={styles.containerTitle}>
-          <h1 className={styles.title}>NEWSFOUNDRY</h1>
-          <Image
-            src="/logo_head_robot.svg"
-            height={20}
-            width={16}
-            alt="logo de NewsFoundry une tête de robot"
-          />
-        </div>
+        <Logo />
         <h2 className={styles.h2}>
           Connectez-vous pour accéder à votre assistant d'actualités IA
         </h2>

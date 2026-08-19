@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.title {
+  color: var(--color-brand-velvet);
+  font-weight: 400;
+  font-size: 25px;
+  margin: 0;
+}
