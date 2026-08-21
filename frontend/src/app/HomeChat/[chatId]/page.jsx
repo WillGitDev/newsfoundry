@@ -2,6 +2,7 @@ import styles from "./chatId.module.css";
 import Chat from "@components/Chat";
 import PastChat from "@components/PastChat";
 import ChatThreadHeader from "@components/ChatThreadHeader";
+import ChatThreadWrapper from "./ChatThreadWrapper";
 
 export default async function ChatThread({ params }) {
   const { chatId } = await params;
@@ -10,8 +11,7 @@ export default async function ChatThread({ params }) {
     <div className={styles.container}>
       <PastChat />
       <div className={styles.chatContainer}>
-        <ChatThreadHeader />
-        <Chat chatId={chatId} />
+        <ChatThreadWrapper chatId={chatId} />
       </div>
     </div>
   );

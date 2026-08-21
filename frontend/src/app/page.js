@@ -30,9 +30,9 @@ export default function Home() {
     <div className={styles.page}>
       <div className={styles.container}>
         <Logo />
-        <h2 className={styles.h2}>
+        <h1 className={styles.h1}>
           Connectez-vous pour accéder à votre assistant d'actualités IA
-        </h2>
+        </h1>
         <form className={styles.form} onSubmit={handleLogin}>
           <label htmlFor="email" className={styles.label}>
             Adresse email
@@ -47,6 +47,7 @@ export default function Home() {
             required
             aria-required="true"
             placeholder="votre email@exemple.com"
+            autoComplete="email"
           />
           <label htmlFor="password" className={styles.label}>
             Mot de passe
@@ -61,6 +62,7 @@ export default function Home() {
             required
             aria-required
             placeholder="votre mot de passe"
+            autoComplete="current-password"
           />
           <button type="submit" className={styles.submit}>
             Se connecter

@@ -1,10 +1,22 @@
+"use client";
 import styles from "./chatThreadHeader.module.css";
+import { useRouter } from "next/navigation";
 
-export default function ChatThreadHeader() {
+export default function ChatThreadHeader({ chatTitle }) {
+  const router = useRouter();
+  const handleBack = () => {
+    router.push("/HomeChat");
+  };
+
   return (
     <div className={styles.header}>
       <div className={styles.backContainer}>
-        <button type="button" aria-label="Retour" className={styles.backButton}>
+        <button
+          type="button"
+          aria-label="Retour"
+          className={styles.backButton}
+          onClick={handleBack}
+        >
           <svg
             width="19"
             height="8"
@@ -19,7 +31,7 @@ export default function ChatThreadHeader() {
           </svg>
         </button>
         <div>
-          <p>Nouvelle discussion</p>
+          <p>{chatTitle || "Nouvelle discussion"}</p>
           <p>Conversation active</p>
         </div>
       </div>

@@ -7,29 +7,36 @@ import { useRouter } from "next/navigation";
 import { apiFetch } from "@/libs/api";
 import ChatMessageBubble from "@components/ChatMessageBubble";
 import { toast } from "react-hot-toast";
+import { useChat } from "@/hooks/useChat";
+import Loader from "@components/Loader";
 
-export default function Chat({ chatId }) {
+export default function Chat({ chatId, onTitleChange = undefined }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isSending, setIsSending] = useState(false);
   const router = useRouter();
+  const {
+    messages: loadMessages,
+    loading,
+    error,
+  } = useChat(chatId ? `/chats/${chatId}` : null);
 
   useEffect(() => {
-    if (!chatId) return;
-    const loadMessages = async () => {
-      try {
-        const data = await apiFetch(`/chats/${chatId}`);
-        setMessages(data.messages);
-      } catch (err) {
-        toast.error(err.message);
-      }
-    };
-    loadMessages();
-  }, [chatId]);
+    setMessages(loadMessages);
+  }, [loadMessages]);
+
+  useEffect(() => {
+    if (onTitleChange) {
+      onTitleChange(messages[0]?.content);
+    }
+  }, [messages, onTitleChange]);
+
+  const titleChat = messages[0]?.content;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!message.trim()) return;
-
+    setIsSending(true);
     try {
       if (chatId) {
         const result = await apiFetch(`/chats/${chatId}/messages`, {
@@ -38,8 +45,16 @@ export default function Chat({ chatId }) {
         });
         setMessages((prev) => [
           ...prev,
-          { role: "user", content: message },
-          { role: "assistant", content: result.response },
+          {
+            role: "user",
+            content: message,
+            timestamp: new Date().toISOString(),
+          },
+          {
+            role: "assistant",
+            content: result.response,
+            timestamp: new Date().toISOString(),
+          },
         ]);
         setMessage("");
       } else {
@@ -52,11 +67,24 @@ export default function Chat({ chatId }) {
       }
     } catch (err) {
       toast.error(err.message);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
     }
   };
   return (
     <div className={styles.container}>
-      <div className={styles.chat}>
+      {loading && <Loader />}
+      <div
+        className={`${styles.chat} ${chatId ? styles.withMessages : ""}`}
+        aria-live="polite"
+      >
         {chatId ? (
           [...messages]
             .reverse()
@@ -75,11 +103,19 @@ export default function Chat({ chatId }) {
       <form className={styles.inputContainer} onSubmit={handleSubmit}>
         <textarea
           className={styles.textarea}
+          aria-label="Message"
           placeholder="Tapez votre message ici ..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
+          disabled={isSending}
         ></textarea>
-        <button type="submit" className={styles.submit}>
+        <button
+          type="submit"
+          className={styles.submit}
+          aria-label="Envoyer le message"
+          disabled={isSending}
+        >
           <svg
             width="16"
             height="16"

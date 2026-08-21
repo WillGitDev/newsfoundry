@@ -2,4 +2,37 @@
   display: grid;
   grid-template-rows: 90px 1fr 90px;
   background-color: var(--color-slate-100);
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pastChatContainer {
+  overflow-y: auto;
+  min-height: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pastChatContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.logout {
+  background-color: var(--color-slate-100);
+  border: none;
+  font-weight: 400;
+  font-size: var(--font-size-heading-2xs);
+  cursor: pointer;
+}
+
+.logoutContainer {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-left: 10px;
 }

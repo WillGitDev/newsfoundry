@@ -5,27 +5,53 @@ import Logo from "@components/Logo";
 import { useFetch } from "@/hooks/useFetch";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
+import { clearAuthToken } from "@/libs/auth";
+import { useRouter } from "next/navigation";
+import Loader from "@components/Loader";
 
 export default function PastChat() {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    clearAuthToken();
+    router.push("/");
+  };
+
   const { data: chats, loading, error } = useFetch("/chats"); // Renomme data en chats.
   useEffect(() => {
     if (error) {
       toast.error(error.message);
     }
   }, [error]);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <Logo />
       </div>
       <div className={styles.pastChatContainer}>
-        {loading && <p>Chargement...</p>}
+        {loading && <Loader />}
         {chats?.map((chat) => (
           <DiscussionItem key={chat.id} id={chat.id} date={chat.created_at} />
         ))}
       </div>
       <div className={styles.logoutContainer}>
-        <p>Se déconnecter</p>
+        <svg
+          width="14"
+          height="16"
+          viewBox="0 0 14 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 10.5V14.5C10 15.327 9.327 16 8.5 16H1.5C0.673 16 0 15.327 0 14.5V1.5C0 0.673 0.673 0 1.5 0H8.5C9.327 0 10 0.673 10 1.5V5.5C10 5.776 9.776 6 9.5 6C9.224 6 9 5.776 9 5.5V1.5C9 1.224 8.775 1 8.5 1H1.5C1.225 1 1 1.224 1 1.5V14.5C1 14.776 1.225 15 1.5 15H8.5C8.775 15 9 14.776 9 14.5V10.5C9 10.224 9.224 10 9.5 10C9.776 10 10 10.224 10 10.5ZM13.757 7.346L11.878 5.173C11.697 4.964 11.381 4.942 11.173 5.122C10.964 5.303 10.942 5.619 11.122 5.828L12.569 7.5H5.5C5.224 7.5 5 7.724 5 8C5 8.276 5.224 8.5 5.5 8.5H12.568L11.122 10.173C10.941 10.382 10.964 10.698 11.173 10.879C11.268 10.96 11.384 11 11.5 11C11.64 11 11.779 10.941 11.878 10.827L13.758 8.653C13.914 8.471 14 8.239 14 8C14 7.761 13.914 7.529 13.757 7.346Z"
+            fill="#2A2A31"
+          />
+        </svg>
+
+        <button className={styles.logout} onClick={handleLogout}>
+          Se déconnecter
+        </button>
       </div>
     </div>
   );

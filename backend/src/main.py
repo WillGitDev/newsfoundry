@@ -5,12 +5,16 @@ import uvicorn
 import bcrypt
 import jwt
 import os
+
 from sqlmodel import Session, select
 from models import LoginRequest, User, Chat, MessageRequest
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic_ai import Agent, ModelMessagesTypeAdapter
 from pydantic_core import to_json
 import json
+from anthropic import RateLimitError, APIError, APIConnectionError
+
+
 
 app = FastAPI()
 security = HTTPBearer()
@@ -67,7 +71,7 @@ async def create_chat(user_id: int = Depends(get_current_user_id)):
         session.add(chat)
         session.commit()
         session.refresh(chat)
-        return {"id": chat.id}
+        return {"id": chat.id, "created_at": chat.created_at}
 
 @app.get("/chats/{chat_id}")
 async def get_chat(chat_id: int, user_id: int = Depends(get_current_user_id)):
@@ -92,8 +96,18 @@ async def add_message(chat_id: int, message: MessageRequest, user_id: int = Depe
             raise HTTPException(status_code=404, detail="Chat introuvable")
 
         history = ModelMessagesTypeAdapter.validate_python(chat.messages)
-        result = await agent.run(message.content, message_history=history)
-
+        try:
+            result = await agent.run(message.content, message_history=history)
+        except RateLimitError:
+            raise HTTPException(status_code=429, detail="Crédit épuisé, réessayez plus tard")
+        except APIConnectionError as e:
+            if "504" in str(e) or "timeout" in str(e).lower():
+                raise HTTPException(status_code=504, detail="Traitement indisponible")
+            else:
+                raise HTTPException(status_code=529, detail="Service temporairement indisponible")
+        except APIError as e:
+            raise HTTPException(status_code=500, detail="Erreur serveur")
+        
         chat.messages = json.loads(to_json(result.all_messages()))
         session.add(chat)
         session.commit()
