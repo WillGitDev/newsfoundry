@@ -5,7 +5,6 @@ import uvicorn
 import bcrypt
 import jwt
 import os
-
 from sqlmodel import Session, select
 from models import LoginRequest, User, Chat, MessageRequest
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +12,7 @@ from pydantic_ai import Agent, ModelMessagesTypeAdapter
 from pydantic_core import to_json
 import json
 from anthropic import RateLimitError, APIError, APIConnectionError
+from world_news import get_daily_prompt
 
 
 
@@ -22,6 +22,11 @@ agent = Agent(
     "anthropic:claude-haiku-4-5-20251001",
     instructions="Tu es un assistant de journaliste ou de pigistes pour un public français. Tu dois aider les pigistes à gagner du temps et aussi à améliorer la qualité de leurs articles. Sois factuel et professionnel, il faut un contenu journalistique. Demande à l'utilisateur quel style et quelle forme adopter pour ses articles. Pour les revues de presse il faut s'appuyer sur des faits, c'est un point important si tu ne peux pas répondre à la question il faut le dire que tu ne sais pas"
 )
+
+@agent.system_prompt
+async def add_daily_news() -> str:
+    content = await get_daily_prompt()
+    return f"Voici les actualités du jour, à utiliser comme source d'information à jour :\n{content}"
 
 app.add_middleware(
     CORSMiddleware,

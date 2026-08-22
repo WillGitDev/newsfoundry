@@ -1,6 +1,6 @@
 from typing import Optional
 from sqlmodel import SQLModel, Field, JSON
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date as Date
 
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -19,3 +19,7 @@ class Chat(SQLModel, table=True):
 
 class MessageRequest(SQLModel):
     content: str
+
+class News(SQLModel, table=True):
+    date: Date = Field(primary_key=True)
+    content: str = Field()
