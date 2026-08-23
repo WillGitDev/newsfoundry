@@ -12,7 +12,7 @@ from pydantic_ai import Agent, ModelMessagesTypeAdapter
 from pydantic_core import to_json
 import json
 from anthropic import RateLimitError, APIError, APIConnectionError
-from world_news import get_daily_prompt
+from world_news import get_daily_prompt, get_search_news
 
 
 
@@ -27,6 +27,13 @@ agent = Agent(
 async def add_daily_news() -> str:
     content = await get_daily_prompt()
     return f"Voici les actualités du jour, à utiliser comme source d'information à jour :\n{content}"
+
+@agent.tool_plain
+async def search_news(query: str) -> str:
+    """Recherche des articles d'actualité sur un sujet précis. 
+    À utiliser quand l'utilisateur veut plus d'informations sur un thème donné."""
+    search = await get_search_news(query)
+    return f"Voici les résultats de la recherche :\n{search}"
 
 app.add_middleware(
     CORSMiddleware,
@@ -52,6 +59,7 @@ def simplify_messages(chat_messages):
             elif part["part_kind"] == "text":
                 simplified.append({"role": "assistant", "content": part["content"], "timestamp": message["timestamp"]})
     return simplified
+
 @app.get("/")
 async def hello():
     return {"message": "👋"}

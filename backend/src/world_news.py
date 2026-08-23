@@ -52,3 +52,41 @@ async def get_daily_prompt():
         session.add(news)
         session.commit()
         return content
+
+async def get_search_news(query):
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(
+                "https://api.worldnewsapi.com/search-news",
+                params={"text": query, "language": "fr", "number": 5},
+                headers={"x-api-key": os.getenv("WORLD_NEWS_API_KEY", "")},
+            )
+        except httpx.RequestError as e:
+            print(f"Erreur réseau de World news API : {e}")
+            return "Impossible de contacter le service d'actualités. Précise cela à l'utilisateur au début de ta réponse."
+        if response.status_code == 402:
+            print("Erreur World News API : quota quotidien dépassé")
+            return "La recherche n'a pas aboutis (quota quotidien de l'API dépassé). Précise cela à l'utilisateur au début de ta réponse."
+        if response.status_code == 429:
+            print("Erreur World News API : trop de requêtes")
+            return "La recherche n'a pas aboutis (trop de requêtes envoyées à l'API). Précise cela à l'utilisateur au début de ta réponse."
+        if response.status_code != 200:
+            print(f"Erreur World News API : code {response.status_code}")
+            return f"La recherche n'a pas aboutis (erreur technique, code {response.status_code}). Précise cela à l'utilisateur au début de ta réponse."
+
+        data = response.json()
+        search_article = []
+        for article in data["news"]:
+            summary = article.get("summary", "")
+
+            if not summary:
+                summary = article.get('text', '')[:150]
+
+            search_article.append(f"- {article.get("title", "Titre indisponible")} : {summary}")
+
+        result = "\n".join(search_article)
+        print("------------------------------------------------------------")
+        print(f"La recherche fais par l'agent : {result}")
+        print("------------------------------------------------------------")
+        return result
+        
