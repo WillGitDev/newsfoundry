@@ -1,9 +1,17 @@
+"use client";
 import styles from "./navChat.module.css";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function NavChat() {
+  const pathname = usePathname();
+
   return (
     <div className={styles.header}>
-      <button type="button" className={styles.button}>
+      <Link
+        href="/HomeChat"
+        className={`${styles.link} ${pathname === "/HomeChat" ? styles.active : ""}`}
+      >
         <svg
           width="15"
           height="15"
@@ -20,8 +28,11 @@ export default function NavChat() {
           />
         </svg>
         Chat
-      </button>
-      <button type="button" className={styles.button}>
+      </Link>
+      <Link
+        href="/HomeChat/revues"
+        className={`${styles.link} ${pathname === "/HomeChat/revues" ? styles.active : ""}`}
+      >
         <svg
           width="12"
           height="15"
@@ -35,7 +46,7 @@ export default function NavChat() {
           />
         </svg>
         Revue de presse
-      </button>
+      </Link>
     </div>
   );
 }

@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  /* min-height: 0; */
+  gap: 20px;
+}
+
+.title {
+  font-weight: 500;
+  font-size: var(--font-size-heading-m);
+}
+
+.h2 {
+  font-weight: 400;
+  font-size: var(--font-size-heading-xs);
+  color: var(--color-slate-800);
+}

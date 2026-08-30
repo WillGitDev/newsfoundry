@@ -1,7 +1,6 @@
 import styles from "./chatId.module.css";
 import Chat from "@components/Chat";
 import PastChat from "@components/PastChat";
-import ChatThreadHeader from "@components/ChatThreadHeader";
 import ChatThreadWrapper from "./ChatThreadWrapper";
 
 export default async function ChatThread({ params }) {

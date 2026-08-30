@@ -8,8 +8,8 @@ export default function ChatThreadWrapper({ chatId }) {
 
   return (
     <>
-      <ChatThreadHeader chatTitle={title} />
-      <Chat chatId={chatId} onTitleChange={setTitle} />
+      <ChatThreadHeader chatTitle={title} chatId={chatId} />
+      <Chat chatId={chatId} onTitleChange={setTitle} mode="chat" />
     </>
   );
 }

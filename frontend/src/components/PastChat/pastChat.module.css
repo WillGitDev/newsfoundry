@@ -7,8 +7,9 @@
 
 .header {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
+  padding-left: 25px;
 }
 
 .pastChatContainer {
@@ -34,5 +35,5 @@
   display: flex;
   justify-content: start;
   align-items: center;
-  padding-left: 10px;
+  padding-left: 25px;
 }

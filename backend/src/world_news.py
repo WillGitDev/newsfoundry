@@ -4,18 +4,23 @@ from datetime import date
 from sqlmodel import Session
 from database import engine
 from models import News
+import asyncio
+
+news_lock = asyncio.Semaphore(1)
 
 async def fetch_top_news():
     async with httpx.AsyncClient() as client:
-        try:
-            response = await client.get(
+        async with news_lock:
+            try:
+                response = await client.get(
                 "https://api.worldnewsapi.com/top-news",
                 params={"source-country": "fr", "language": "fr"},
                 headers={"x-api-key": os.getenv("WORLD_NEWS_API_KEY", "")},
-            )
-        except httpx.RequestError as e:
-            print(f"Erreur réseau de World news API : {e}")
-            return "Impossible de contacter le service d'actualiés. Précise cela à l'utilisateur au début de ta réponse."
+                )
+            except httpx.RequestError as e:
+                print(f"Erreur réseau de World news API : {e}")
+                return "Impossible de contacter le service d'actualiés. Précise cela à l'utilisateur au début de ta réponse."
+            await asyncio.sleep(1)
         # Les erreurs dans les logs serveur et pour l'IA lors de sa réponse. 
         if response.status_code == 402:
             print("Erreur World News API : quota quotidien dépassé")
@@ -55,15 +60,17 @@ async def get_daily_prompt():
 
 async def get_search_news(query):
     async with httpx.AsyncClient() as client:
-        try:
-            response = await client.get(
+        async with news_lock:
+            try:
+                response = await client.get(
                 "https://api.worldnewsapi.com/search-news",
                 params={"text": query, "language": "fr", "number": 5},
                 headers={"x-api-key": os.getenv("WORLD_NEWS_API_KEY", "")},
-            )
-        except httpx.RequestError as e:
-            print(f"Erreur réseau de World news API : {e}")
-            return "Impossible de contacter le service d'actualités. Précise cela à l'utilisateur au début de ta réponse."
+                )
+            except httpx.RequestError as e:
+                print(f"Erreur réseau de World news API : {e}")
+                return "Impossible de contacter le service d'actualités. Précise cela à l'utilisateur au début de ta réponse."
+            await asyncio.sleep(1)
         if response.status_code == 402:
             print("Erreur World News API : quota quotidien dépassé")
             return "La recherche n'a pas aboutis (quota quotidien de l'API dépassé). Précise cela à l'utilisateur au début de ta réponse."

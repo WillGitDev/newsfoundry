@@ -9,11 +9,18 @@ import ChatMessageBubble from "@components/ChatMessageBubble";
 import { toast } from "react-hot-toast";
 import { useChat } from "@/hooks/useChat";
 import Loader from "@components/Loader";
+import ChatMessages from "@components/ChatMessages";
+import ListRevue from "../ListRevue";
 
-export default function Chat({ chatId, onTitleChange = undefined }) {
+export default function Chat({
+  chatId,
+  onTitleChange = undefined,
+  mode = "info",
+}) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [isSending, setIsSending] = useState(false);
+
   const router = useRouter();
   const {
     messages: loadMessages,
@@ -82,20 +89,13 @@ export default function Chat({ chatId, onTitleChange = undefined }) {
     <div className={styles.container}>
       {loading && <Loader />}
       <div
-        className={`${styles.chat} ${chatId ? styles.withMessages : ""}`}
+        className={`${styles.chat} ${mode !== "info" ? styles.chatMode : ""} ${mode === "revues" ? styles.revuesMode : ""}`}
         aria-live="polite"
       >
-        {chatId ? (
-          [...messages]
-            .reverse()
-            .map((msg, index) => (
-              <ChatMessageBubble
-                key={index}
-                role={msg.role}
-                content={msg.content}
-                timestamp={msg.timestamp}
-              />
-            ))
+        {mode === "chat" ? (
+          <ChatMessages messages={messages} />
+        ) : mode === "revues" ? (
+          <ListRevue />
         ) : (
           <InfoChat />
         )}

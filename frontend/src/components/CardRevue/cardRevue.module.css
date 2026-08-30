@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  background-color: var(--color-slate-white);
+  padding: 40px;
+  border-radius: 15px;
+  min-height: 550px;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 40px;
+  width: 90px;
+  padding: 12px 24px;
+  color: var(--color-slate-white);
+  background-color: var(--color-slate-dark);
+  border-radius: 5px;
+}
+
+.h3 {
+  font-weight: 400;
+  font-family: var(--font-ibm-plex-sans);
+  margin: 0;
+}
+
+.date {
+  font-weight: 400;
+  font-size: var(--font-size-heading-2xs);
+  color: var(--color-slate-800);
+  margin: 0;
+}
