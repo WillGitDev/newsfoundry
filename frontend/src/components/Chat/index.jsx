@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { apiFetch } from "@/libs/api";
 import ChatMessageBubble from "@components/ChatMessageBubble";
 import { toast } from "react-hot-toast";
-import { useChat } from "@/hooks/useChat";
+import { useFetch } from "@/hooks/useFetch";
 import Loader from "@components/Loader";
 import ChatMessages from "@components/ChatMessages";
 import ListRevue from "../ListRevue";
@@ -22,15 +22,13 @@ export default function Chat({
   const [isSending, setIsSending] = useState(false);
 
   const router = useRouter();
-  const {
-    messages: loadMessages,
-    loading,
-    error,
-  } = useChat(chatId ? `/chats/${chatId}` : null);
+  const { data: chat, loading } = useFetch(chatId ? `/chats/${chatId}` : null);
 
   useEffect(() => {
-    setMessages(loadMessages);
-  }, [loadMessages]);
+    if (chat?.messages) {
+      setMessages(chat.messages);
+    }
+  }, [chat]);
 
   useEffect(() => {
     if (onTitleChange) {

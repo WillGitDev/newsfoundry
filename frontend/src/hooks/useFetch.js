@@ -8,8 +8,13 @@ export function useFetch(path) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!path) {
+      setLoading(false);
+      return;
+    }
     const load = async () => {
       setLoading(true);
+      setError(null);
       try {
         const result = await apiFetch(path);
         setData(result);
