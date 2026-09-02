@@ -30,11 +30,6 @@ Deux agents ont été créés pour avoir des agents spécialisé qui sont plus p
 
 `revue_agent` est déclaré avec `output_type`. Ceux qui permet de contraindre le modèle à répondre selon ce schéma
 
-### Sortie structurée pour la revue de presse
-
-`revue_agent` est déclaré avec `output_type=RevuesOutput`. PydanticAI contraint alors le
-modèle à répondre selon ce schéma :
-
 ```python
 class RevuesOutput(BaseModel):
     titre: str
