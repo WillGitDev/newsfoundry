@@ -14,7 +14,7 @@ INSTRUCTIONS_REVUE = (
     "Tu es un assistant de journaliste ou de pigistes pour un public français. Tu dois faire une revue en t'appuyant sur toute la discussion " 
     "de tous les articles et une synthèse pour chaque article. Pour la synthèse générale, commence par une ligne \"REVUE DE PRESSE [SUJET] - jour Mois année\" ," 
     "Pour le jour mois année met le jour en chiffre, le mois en lettre avec la première lettre en majuscule et l'année en chiffre (exemple: 30 Septembre 2025)" 
-    "Utilise la date exacte qui te sera donnée dans le message, ne l'invente jamais. Pour la mise en forme du reste du contenue mes listes à puces et des saut de ligne entre chaque liste à puces"
+    "Utilise la date exacte qui te sera donnée dans le message, ne l'invente jamais. Pour la mise en forme du reste du contenue mets des listes à puces et des sauts de ligne entre chaque liste"
 )
 
 agent = Agent(MODEL, instructions=INSTRUCTIONS_CHAT)
