@@ -15,8 +15,6 @@ from pydantic_ai.exceptions import ModelAPIError, ModelHTTPError
 from datetime import datetime, timezone
 from agents import agent, revue_agent
 
-
-
 app = FastAPI()
 security = HTTPBearer()
 
@@ -36,6 +34,10 @@ def get_current_user_id(credentials: HTTPAuthorizationCredentials = Depends(secu
     return payload["user_id"]
 
 def simplify_messages(chat_messages):
+    """Convertit l'historique brut de PydanticAI (parts typées) en liste simple
+    de messages {role, content, timestamp} pour l'affichage frontend.
+    Les parts d'appels d'outils (tool-call/tool-return) sont ignorées.
+    """
     simplified = []
     for message in chat_messages:
         for part in message["parts"]:
@@ -68,6 +70,7 @@ async def create_chat(user_id: int = Depends(get_current_user_id)):
         chat = Chat(user_id=user_id, messages=[])
         session.add(chat)
         session.commit()
+        #On refresh pour récupérer l'id.
         session.refresh(chat)
         return {"id": chat.id, "created_at": chat.created_at}
 
@@ -92,7 +95,7 @@ async def add_message(chat_id: int, message: MessageRequest, user_id: int = Depe
         chat = session.get(Chat, chat_id)
         if not chat or chat.user_id != user_id:
             raise HTTPException(status_code=404, detail="Chat introuvable")
-
+        #Transforme le JSON en un objet PydanticAI typés ModelMessage pour l'agent.
         history = ModelMessagesTypeAdapter.validate_python(chat.messages)
         try:
             result = await agent.run(message.content, message_history=history)
