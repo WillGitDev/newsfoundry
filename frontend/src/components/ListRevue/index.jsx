@@ -16,7 +16,7 @@ export default function ListRevue() {
   return (
     <div className={styles.container}>
       <div>
-        <h1 className={styles.title}>Reves de Presse</h1>
+        <h1 className={styles.title}>Revues de Presse</h1>
         <h2 className={styles.h2}>
           Consultez et gérer vos revues de presse générées par l'IA
         </h2>

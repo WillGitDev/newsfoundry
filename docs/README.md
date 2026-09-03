@@ -3,7 +3,7 @@
 | Document                                   | Contenu                                                                                                    |
 | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | [architecture.md](architecture.md)         | Structure du projet, rôle de chaque fichier, commandes pour lancer l'application et les tests, déploiement |
-| [choix-techniques.md](choix-techniques.md) | Les décisions prises pendant l'implémentation et leurs raisons                                             |
+| [choix-techniques.md](choix_techniques.md) | Les décisions prises pendant l'implémentation et leurs raisons                                             |
 | [api.md](api.md)                           | Les routes de l'API backend et les erreurs qu'elles renvoient                                              |
 | [prompts.md](prompts.md)                   | Les instructions données aux deux agents et l'intention de chaque consigne                                 |
 

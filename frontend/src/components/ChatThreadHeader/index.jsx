@@ -5,6 +5,7 @@ import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { apiFetch } from "@/libs/api";
 import { toast } from "react-hot-toast";
+import Loader from "@components/Loader";
 
 export default function ChatThreadHeader({ chatTitle, chatId }) {
   const [sujetRevue, setSujetRevue] = useState("");
@@ -104,8 +105,9 @@ export default function ChatThreadHeader({ chatTitle, chatId }) {
               <button
                 type="submit"
                 className={`${styles.buttonSubmit} ${styles.champ}`}
+                disabled={isLoading}
               >
-                Générer
+                {isLoading ? <Loader /> : "Générer"}
               </button>
             </form>
           </Dialog.Content>

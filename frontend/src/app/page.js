@@ -45,7 +45,6 @@ export default function Home() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            aria-required="true"
             placeholder="votre email@exemple.com"
             autoComplete="email"
           />
@@ -60,7 +59,6 @@ export default function Home() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            aria-required
             placeholder="votre mot de passe"
             autoComplete="current-password"
           />
