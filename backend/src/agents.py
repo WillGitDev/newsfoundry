@@ -1,6 +1,11 @@
 from pydantic_ai import Agent
 from world_news import get_daily_prompt, get_search_news
 from models import RevuesOutput
+import mlflow
+
+mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.pydantic_ai.autolog()
+
 MODEL = "anthropic:claude-haiku-4-5-20251001"
 
 INSTRUCTIONS_CHAT = (
