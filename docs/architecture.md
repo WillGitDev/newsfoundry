@@ -202,3 +202,19 @@ uv run --env-file .env pytest src/test_main.py::test_send_message_creates_chat_h
 
 Les deux plateformes sont connectées au dépôt GitHub et redéploient automatiquement à
 chaque commit sur la branche `main`.
+
+### Configuration des plateformes
+
+Le projet étant un monorepo, chaque plateforme doit être configurée pour trouver la partie qui la concerne.
+
+Ralway (backend) :
+
+- Laisser le "Root Directory" vide, et définir la variable `RAILWAY_DOCKERFILE_PATH=backend/Dockerfile`.
+
+Vercel (frontend) :
+
+- "Root Directory" sur `frontend` et "Framework Preset" : `Next.js`.
+
+**Variables d'environement en production** :
+
+- Les quatres variables du backend sont à définir dans Railway, et `NEXT_PUBLIC_API_URL` dans Vercel, pointant vers l'URL Railway.

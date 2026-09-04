@@ -12,7 +12,7 @@ from pydantic_ai import ModelMessagesTypeAdapter
 from pydantic_core import to_json
 import json
 from pydantic_ai.exceptions import ModelAPIError, ModelHTTPError
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from agents import agent, revue_agent
 
 app = FastAPI()
@@ -60,7 +60,7 @@ async def login(credentials: LoginRequest):
         if not user or not bcrypt.checkpw(credentials.password.encode("utf-8"), user.hashed_password.encode("utf-8")):
             raise HTTPException(status_code=401, detail="Email ou mot de passe incorrect")
 
-        token = jwt.encode({"user_id": user.id}, os.getenv("JWT_SECRET_KEY"), algorithm="HS256")
+        token = jwt.encode({"user_id": user.id, "exp": datetime.now(timezone.utc) + timedelta(hours=24)}, os.getenv("JWT_SECRET_KEY"), algorithm="HS256")
 
         return {"token": token}
 

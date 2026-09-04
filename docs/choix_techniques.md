@@ -2,7 +2,7 @@
 
 ## Choix techniques imposés pour le début du projet
 
-Le CTO à fixé la stack technique avant le début du projet. Voici ces choix et les raisons données.
+Le CTO a fixé la stack technique avant le début du projet. Voici ces choix et les raisons données.
 
 | Choix imposé          | Raison donnée                                     |
 | --------------------- | ------------------------------------------------- |
