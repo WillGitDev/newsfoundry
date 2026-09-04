@@ -11,9 +11,14 @@ export default function ChatMessageBubble({ role, content, timestamp }) {
         className={`${styles.containerIcon} ${isUser ? styles.userIcon : styles.ia}`}
       >
         {isUser ? (
-          <Image src="/icon_person.svg" height={20} width={16} alt="" />
+          <Image src="/Icon_person.svg" height={20} width={16} alt="Vous" />
         ) : (
-          <Image src="/logo_head_robot.svg" height={20} width={16} alt="" />
+          <Image
+            src="/logo_head_robot.svg"
+            height={20}
+            width={16}
+            alt="Assistant"
+          />
         )}
       </div>
       <div className={styles.container}>
