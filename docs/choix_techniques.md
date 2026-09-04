@@ -1,8 +1,8 @@
 # Choix techniques
 
-## Choix techniques imposé pour le début du projet
+## Choix techniques imposés pour le début du projet
 
-Dans le `README.md` on retrouve les choix techniques fixée par le CTO.
+Le CTO à fixé la stack technique avant le début du projet. Voici ces choix et les raisons données.
 
 | Choix imposé          | Raison donnée                                     |
 | --------------------- | ------------------------------------------------- |
@@ -20,15 +20,15 @@ Dans le `README.md` on retrouve les choix techniques fixée par le CTO.
 
 ### Deux agents distincts
 
-Deux agents ont été créés pour avoir des agents spécialisé qui sont plus performant qu'un agent généraliste.
+Deux agents ont été créés pour avoir des agents spécialisés qui sont plus performants qu'un agent généraliste.
 
 - `agent` répond dans le chat. Il reçoit automatiquement les actualités du jour, et dispose en plus de l'outil `search_news` pour rechercher des informations supplémentaires si besoin.
 
-- `revue_agent`à partir de la dicussion et du sujet renseigné il va créer une revue.
+- `revue_agent`à partir de la discussion et du sujet renseigné il va créer une revue.
 
-### Sortie structuré pour la revue de presse
+### Sortie structurée pour la revue de presse
 
-`revue_agent` est déclaré avec `output_type`. Ceux qui permet de contraindre le modèle à répondre selon ce schéma
+`revue_agent` est déclaré avec `output_type`. Ce qui permet de contraindre le modèle à répondre selon ce schéma
 
 ```python
 class RevuesOutput(BaseModel):
@@ -72,7 +72,7 @@ C'est un point de sécurité couvert par deux tests.
 
 Le projet a été initialisé en JavaScript, avec des CSS modules.
 
-Le choix de CSS Modules est adapté pour le projet chaque composant peux définir son style sans çe préoccuper de la spécifité. Les noms de classe sont générées et sont unique aucune colision de noms possible.
+Le choix de CSS Modules est adapté au projet : chaque composant peut définir son style et permet de gérer la spécificité au niveau du fichier. Les noms de classe sont générés et uniques donc aucune collision de noms n'est possible.
 
 ### Une couche d'accès unique au backend
 

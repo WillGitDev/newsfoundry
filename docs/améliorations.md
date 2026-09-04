@@ -45,4 +45,4 @@ Cette solution a un inconvénient principal c'est que l'on perd une partie de la
 
 En ajoutant une consigne qui précise de synthétiser une dizaine d'articles les plus pertinents dans le prompt de `revue_agent`.
 
-L'objectif est de ramener le temps de génération sous les 10 secondes. Un message explicite pendant l'attente ("Génération en cours, cela peut prendre de 10 à 20 secondes) pourrait être également implémenté pour que l'utilisateur ne quitte pas le site en pensant que l'application est bloquée.
+L'objectif est de ramener le temps de génération sous les 10 secondes. Un message explicite pendant l'attente ("Génération en cours, cela peut prendre de 10 à 20 secondes") pourrait être également implémenté pour que l'utilisateur ne quitte pas le site en pensant que l'application est bloquée.

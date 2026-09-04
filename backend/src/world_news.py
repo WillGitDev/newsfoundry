@@ -19,7 +19,7 @@ async def fetch_top_news():
                 )
             except httpx.RequestError as e:
                 print(f"Erreur réseau de World news API : {e}")
-                return False, "Impossible de contacter le service d'actualiés. Précise cela à l'utilisateur au début de ta réponse."
+                return False, "Impossible de contacter le service d'actualités. Précise cela à l'utilisateur au début de ta réponse."
             await asyncio.sleep(1)
         # Les erreurs dans les logs serveur et pour l'IA lors de sa réponse. 
         if response.status_code == 402:
@@ -75,13 +75,13 @@ async def get_search_news(query):
             await asyncio.sleep(1)
         if response.status_code == 402:
             print("Erreur World News API : quota quotidien dépassé")
-            return "La recherche n'a pas aboutis (quota quotidien de l'API dépassé). Précise cela à l'utilisateur au début de ta réponse."
+            return "La recherche n'a pas abouti (quota quotidien de l'API dépassé). Précise cela à l'utilisateur au début de ta réponse."
         if response.status_code == 429:
             print("Erreur World News API : trop de requêtes")
-            return "La recherche n'a pas aboutis (trop de requêtes envoyées à l'API). Précise cela à l'utilisateur au début de ta réponse."
+            return "La recherche n'a pas abouti (trop de requêtes envoyées à l'API). Précise cela à l'utilisateur au début de ta réponse."
         if response.status_code != 200:
             print(f"Erreur World News API : code {response.status_code}")
-            return f"La recherche n'a pas aboutis (erreur technique, code {response.status_code}). Précise cela à l'utilisateur au début de ta réponse."
+            return f"La recherche n'a pas abouti (erreur technique, code {response.status_code}). Précise cela à l'utilisateur au début de ta réponse."
 
         data = response.json()
         search_article = []
@@ -95,7 +95,7 @@ async def get_search_news(query):
 
         result = "\n".join(search_article)
         print("------------------------------------------------------------")
-        print(f"La recherche fais par l'agent : {result}")
+        print(f"La recherche faite par l'agent : {result}")
         print("------------------------------------------------------------")
         return result
         

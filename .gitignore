@@ -10,3 +10,7 @@ wheels/
 .venv
 
 .env
+
+# MLFlow
+mlflow.db
+mlruns/

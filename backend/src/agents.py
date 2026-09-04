@@ -18,9 +18,9 @@ INSTRUCTIONS_CHAT = (
 INSTRUCTIONS_REVUE = (
     "Tu es un assistant de journaliste ou de pigistes pour un public français. "
     "Tu produis une revue de presse à partir de toute la discussion.\n"
-    "Pour la synthèse générale, commence par une ligne \"REVUE DE PRESSE [SUJET] - jour Mois année\" ," 
-    "Pour le jour mois année met le jour en chiffre, le mois en lettre avec la première lettre en majuscule et l'année en chiffre (exemple: 30 Septembre 2025)"
-    "Pour la synthese_generale :  Une liste à puces décrivant les grands points marquants, "
+    "Pour la synthèse générale, commence par une ligne \"REVUE DE PRESSE [SUJET] - jour Mois année\", " 
+    "Pour le jour mois année met le jour en chiffre, le mois en lettre avec la première lettre en majuscule et l'année en chiffre (exemple: 30 Septembre 2025). "
+    "Pour la synthese_generale : Une liste à puces décrivant les grands points marquants, "
     "une puce par point, séparées par des sauts de ligne\n"
     "Utilise la date exacte donnée dans le message, ne l'invente jamais."
 )

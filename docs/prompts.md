@@ -36,7 +36,7 @@ INSTRUCTIONS_CHAT = (
 
 ### Les actualités du jour
 
-Ce mécanisme répond à la "cutt of date" du modèle : Claude ne connaît rien de ce qui
+Ce mécanisme répond à la "cutoff date" du modèle : Claude ne connaît rien de ce qui
 s'est passé après son entraînement. Sans injection, il répondrait avec assurance sur une
 actualité vieille de plusieurs mois, ou refuserait de répondre.
 
@@ -77,28 +77,42 @@ facilitent l'usage de l'outil par l'agent.
 ```python
 INSTRUCTIONS_REVUE = (
     "Tu es un assistant de journaliste ou de pigistes pour un public français. "
-    "Tu dois faire une revue en t'appuyant sur toute la discussion de tous les "
-    "articles et une synthèse pour chaque article. Pour la synthèse générale, "
-    'commence par une ligne "REVUE DE PRESSE [SUJET] - jour Mois année", '
+    "Tu produis une revue de presse à partir de toute la discussion.\n"
+    "Pour la synthèse générale, commence par une ligne "
+    '"REVUE DE PRESSE [SUJET] - jour Mois année", '
     "Pour le jour mois année met le jour en chiffre, le mois en lettre avec la "
-    "première lettre en majuscule et l'année en chiffre (exemple: 30 Septembre 2025) "
-    "Utilise la date exacte qui te sera donnée dans le message, ne l'invente jamais. "
-    "Pour la mise en forme du reste du contenu, mets des listes à puces et des sauts "
-    "de ligne entre chaque liste à puces"
+    "première lettre en majuscule et l'année en chiffre (exemple: 30 Septembre 2025). "
+    "Pour la synthese_generale : Une liste à puces décrivant les grands points "
+    "marquants, une puce par point, séparées par des sauts de ligne\n"
+    "Utilise la date exacte donnée dans le message, ne l'invente jamais."
 )
 ```
 
 ### Ce que chaque consigne cherche à obtenir
 
-| Consigne                                                                               | Intention                                                                                                                                                                              |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Même rôle que l'agent de chat                                                          | Conserver le registre journalistique et la langue.                                                                                                                                     |
-| « en t'appuyant sur toute la discussion »                                              | Rappeler que la matière première est l'historique complet, transmis via `message_history`, et pas seulement le sujet demandé.                                                          |
-| « une synthèse pour chaque article »                                                   | Obtenir le champ `synthese_articles` attendu par le schéma de sortie.                                                                                                                  |
-| Format d'en-tête imposé                                                                | Produire un rendu homogène d'une revue à l'autre, reconnaissable au premier coup d'œil.                                                                                                |
-| Format de date détaillé, avec exemple                                                  | Un exemple concret vaut mieux qu'une description abstraite. « 30 Septembre 2025 » lève toute ambiguïté entre les formats français, anglais et numériques.                              |
-| **« Utilise la date exacte qui te sera donnée dans le message, ne l'invente jamais »** | Consigne critique. Un modèle ne connaît pas la date du jour et en inventera une s'il en a besoin. La date réelle est calculée par le backend et transmise dans le message utilisateur. |
-| Listes à puces et sauts de ligne                                                       | Le rendu final passe par `react-markdown`. Un texte structuré en listes est nettement plus lisible qu'un bloc de prose dans une carte de revue.                                        |
+| Consigne                                                                   | Intention                                                                                                                                                                                                  |
+| -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Même rôle que l'agent de chat                                              | Conserver le registre journalistique et la langue.                                                                                                                                                         |
+| « à partir de toute la discussion »                                        | Rappeler que la matière première est l'historique complet, transmis via `message_history`, et pas seulement le sujet demandé.                                                                              |
+| Format d'en-tête imposé                                                    | Produire un rendu homogène d'une revue à l'autre, reconnaissable au premier coup d'œil.                                                                                                                    |
+| Format de date détaillé, avec exemple                                      | Un exemple concret vaut mieux qu'une description abstraite. « 30 Septembre 2025 » lève toute ambiguïté entre les formats français, anglais et numériques.                                                  |
+| **« Utilise la date exacte donnée dans le message, ne l'invente jamais »** | Consigne critique. Un modèle ne connaît pas la date du jour et en inventera une s'il en a besoin. La date réelle est calculée par le backend et transmise dans le message utilisateur.                     |
+| « Pour la `synthese_generale` : une liste à puces… »                       | Cibler explicitement **un seul champ** du schéma. Le rendu final passe par `react-markdown` : une synthèse générale structurée en puces est bien plus lisible qu'un bloc de prose dans une carte de revue. |
+
+### Une consigne volontairement absente : la synthèse par article
+
+Le prompt ne demande nulle part de produire une synthèse pour chaque article, alors que
+la revue en contient une. Ce n'est pas un oubli.
+
+`synthese_articles` est un champ **obligatoire** du schéma `RevuesOutput`. PydanticAI
+transmet ce schéma au modèle et valide la réponse : le champ est rempli que le prompt le
+réclame ou non. Le dupliquer dans les instructions n'ajouterait aucune garantie, et
+allongerait un prompt envoyé à chaque génération.
+
+C'est l'application directe du principe énoncé plus bas dans ce document : une contrainte
+portée par le schéma est plus fiable qu'une consigne de format espérée du modèle. Le
+prompt se concentre donc sur ce que le schéma ne peut pas exprimer — le ton, le format
+d'en-tête, la mise en forme interne des champs texte.
 
 ### Le message envoyé à l'agent
 
